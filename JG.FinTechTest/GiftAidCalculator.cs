@@ -7,14 +7,20 @@ namespace JG.FinTechTest
 {
     public class GiftAidCalculator
     {
+        private decimal Multiplier { get;}
+
         public GiftAidCalculator(decimal taxRate)
         {
-            throw new NotImplementedException();
+            if (taxRate > 100 || taxRate < 0)
+            {
+                throw new ArgumentException("Tax Rate percentage value should be between 0 and 100");
+            }
+            Multiplier = taxRate / (100 - taxRate);
         }
 
-        public double CalculateGiftAid(decimal donationAmount)
+        public decimal CalculateGiftAid(decimal donationAmount)
         {
-            throw new NotImplementedException();
+            return donationAmount * Multiplier;
         }
     }
 }
