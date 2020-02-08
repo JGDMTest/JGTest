@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace JG.FinTechTest.Controllers
 {
@@ -14,7 +15,7 @@ namespace JG.FinTechTest.Controllers
         }
 
         [HttpGet]
-        public GiftAidResponse GiftAid(decimal amount)
+        public async Task<ActionResult<GiftAidResponse>> GiftAid(decimal amount)
         {
             var giftAidResult = _giftAidCalculator.CalculateGiftAid(amount);
             return new GiftAidResponse
