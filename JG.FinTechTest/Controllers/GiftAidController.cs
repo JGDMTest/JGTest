@@ -16,7 +16,12 @@ namespace JG.FinTechTest.Controllers
         [HttpGet]
         public GiftAidResponse GiftAid(decimal amount)
         {
-            return new GiftAidResponse();
+            var giftAidResult = _giftAidCalculator.CalculateGiftAid(amount);
+            return new GiftAidResponse
+            {
+                DonationAmount = amount,
+                GiftAidAmount = giftAidResult
+            };
         }
     }
 }

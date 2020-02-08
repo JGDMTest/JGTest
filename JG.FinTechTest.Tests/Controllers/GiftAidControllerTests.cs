@@ -27,7 +27,11 @@ namespace JG.FinTechTest.Tests.Controllers
 
             //Act
             var giftAidResponse = _giftAidController.GiftAid(100);
+
+            //Assert
             giftAidResponse.GiftAidAmount.Should().Be(20);
+            giftAidResponse.DonationAmount.Should().Be(100);
+
 
 
         }
