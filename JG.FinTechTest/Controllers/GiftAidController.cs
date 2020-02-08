@@ -9,11 +9,13 @@ namespace JG.FinTechTest.Controllers
     {
         private const decimal MinimumValue = 2;
         private const decimal MaximumValue = 100000;
-        private IGiftAidCalculator _giftAidCalculator;
+        private readonly IGiftAidCalculator _giftAidCalculator;
+        private IDonorRepository _donorRepository;
 
-        public GiftAidController(IGiftAidCalculator giftAidCalculator)
+        public GiftAidController(IGiftAidCalculator giftAidCalculator, IDonorRepository donorRepository)
         {
             _giftAidCalculator = giftAidCalculator;
+            _donorRepository = donorRepository;
         }
 
         /// <summary>
@@ -27,7 +29,7 @@ namespace JG.FinTechTest.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Produces("application/json")]
-        public ActionResult<GiftAidResponse> GiftAid(decimal amount)
+        public ActionResult<GiftAidResponse> CalculateGiftAid(decimal amount)
         {
             if (amount < MinimumValue || amount > MaximumValue)
             {
@@ -39,6 +41,22 @@ namespace JG.FinTechTest.Controllers
                 DonationAmount = amount,
                 GiftAidAmount = giftAidResult
             };
+        }
+
+        /// <summary>
+        /// Calculates GiftAid for a donation amount
+        /// </summary>
+        /// <param name="postCode">the donor's postcode</param>
+        /// <param name="amount">the donation amount</param>
+        /// <param name="name">the donors name</param>
+        /// <returns>A gift aid response object containing the donation and gift aid amount</returns>
+        /// <response code="201">Returns the id of the newly created object and the donation amount</response>
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [Produces("application/json")]
+        public ActionResult<PersistInformationResponse> PersistDonorInformation(string name, string postCode, decimal amount)
+        {
+           return new PersistInformationResponse();
         }
     }
 }

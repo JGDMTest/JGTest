@@ -1,33 +1,21 @@
 using FluentAssertions;
 using JG.FinTechTest.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace JG.FinTechTest.Tests.Controllers
+namespace JG.FinTechTest.Tests.Controllers.GiftAidControllerTests
 {
-    public class GiftAidControllerTests
+    public class CalculateGiftAidTests : GiftAidControllerTestBase
     {
-        private GiftAidController _giftAidController;
-        private IGiftAidCalculator _giftAidCalculator;
-
-        [SetUp]
-        public void Setup()
-        {
-            _giftAidCalculator = Substitute.For<IGiftAidCalculator>();
-            _giftAidController = new GiftAidController(_giftAidCalculator);
-
-        }
-
         [Test]
-        public void GiftAidController_ShouldReturnResultFromGiftAidCalculator()
+        public void CalculateGiftAid_ShouldReturnResultFromGiftAidCalculator()
         {
             //Arrange
-            _giftAidCalculator.CalculateGiftAid(100).Returns(20);
+            GiftAidCalculator.CalculateGiftAid(100).Returns(20);
 
             //Act
-            var giftAidResponse = _giftAidController.GiftAid(100).Value;
+            var giftAidResponse = GiftAidController.CalculateGiftAid(100).Value;
 
             //Assert
             giftAidResponse.GiftAidAmount.Should().Be(20);
@@ -39,7 +27,7 @@ namespace JG.FinTechTest.Tests.Controllers
         public void DonationUnderMinimumValue_ShouldReturnBadRequest()
         {
             //Act
-            var giftAidResponse = _giftAidController.GiftAid(1.99m).Result;
+            var giftAidResponse = GiftAidController.CalculateGiftAid(1.99m).Result;
 
             //Assert
             giftAidResponse.Should().BeOfType<BadRequestObjectResult>();
@@ -49,7 +37,7 @@ namespace JG.FinTechTest.Tests.Controllers
         public void DonationOverMaximumValue_ShouldReturnBadRequest()
         {
             //Act
-            var giftAidResponse = _giftAidController.GiftAid(100000.01m).Result;
+            var giftAidResponse = GiftAidController.CalculateGiftAid(100000.01m).Result;
 
             //Assert
             giftAidResponse.Should().BeOfType<BadRequestObjectResult>();
