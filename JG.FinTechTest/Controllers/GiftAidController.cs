@@ -56,7 +56,14 @@ namespace JG.FinTechTest.Controllers
         [Produces("application/json")]
         public ActionResult<PersistInformationResponse> PersistDonorInformation(string name, string postCode, decimal amount)
         {
-           return new PersistInformationResponse();
+            try
+            {
+                return _donorRepository.PersistDonorInformation(name, postCode, amount);
+            }
+            catch (UserAlreadyExistsException)
+            {
+                return BadRequest("User Already exists");
+            }
         }
     }
 }
