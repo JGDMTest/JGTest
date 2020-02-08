@@ -7,6 +7,8 @@ namespace JG.FinTechTest.Controllers
     [ApiController]
     public class GiftAidController : ControllerBase
     {
+        private const decimal MinimumValue = 2;
+        private const decimal MaximumValue = 100000;
         private IGiftAidCalculator _giftAidCalculator;
 
         public GiftAidController(IGiftAidCalculator giftAidCalculator)
@@ -15,8 +17,12 @@ namespace JG.FinTechTest.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<GiftAidResponse>> GiftAid(decimal amount)
+        public ActionResult<GiftAidResponse> GiftAid(decimal amount)
         {
+            if (amount < MinimumValue || amount > MaximumValue)
+            {
+                return BadRequest("amount should be between £2 and £100,000");
+            }
             var giftAidResult = _giftAidCalculator.CalculateGiftAid(amount);
             return new GiftAidResponse
             {

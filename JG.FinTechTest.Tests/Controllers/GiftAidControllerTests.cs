@@ -27,7 +27,7 @@ namespace JG.FinTechTest.Tests.Controllers
             _giftAidCalculator.CalculateGiftAid(100).Returns(20);
 
             //Act
-            var giftAidResponse = _giftAidController.GiftAid(100).Result.Value;
+            var giftAidResponse = _giftAidController.GiftAid(100).Value;
 
             //Assert
             giftAidResponse.GiftAidAmount.Should().Be(20);
@@ -42,7 +42,7 @@ namespace JG.FinTechTest.Tests.Controllers
             var giftAidResponse = _giftAidController.GiftAid(1.99m).Result;
 
             //Assert
-            giftAidResponse.Result.Should().BeOfType<BadRequestObjectResult>();
+            giftAidResponse.Should().BeOfType<BadRequestObjectResult>();
         }
 
         [Test]
@@ -52,7 +52,7 @@ namespace JG.FinTechTest.Tests.Controllers
             var giftAidResponse = _giftAidController.GiftAid(100000.01m).Result;
 
             //Assert
-            giftAidResponse.Result.Should().BeOfType<BadRequestObjectResult>();
+            giftAidResponse.Should().BeOfType<BadRequestObjectResult>();
         }
 
     }
