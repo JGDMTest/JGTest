@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace JG.FinTechTest.Controllers
 {
@@ -10,11 +6,17 @@ namespace JG.FinTechTest.Controllers
     [ApiController]
     public class GiftAidController : ControllerBase
     {
+        private IGiftAidCalculator _giftAidCalculator;
+
+        public GiftAidController(IGiftAidCalculator giftAidCalculator)
+        {
+            _giftAidCalculator = giftAidCalculator;
+        }
 
         [HttpGet]
-        public IActionResult Test()
+        public GiftAidResponse GiftAid(decimal amount)
         {
-            return Ok("Hello World");
+            return new GiftAidResponse();
         }
     }
 }

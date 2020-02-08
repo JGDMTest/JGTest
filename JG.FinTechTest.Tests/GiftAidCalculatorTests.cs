@@ -36,7 +36,8 @@ namespace JG.FinTechTest.Tests
         {
             var giftAidCalculator = new GiftAidCalculator(20);
             giftAidCalculator.CalculateGiftAid(100).Should().Be(25);
-
         }
+
+
     }
 }
